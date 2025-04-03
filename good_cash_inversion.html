@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Cash - Inversión Segura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Good Cash - Inversión Segura</h1>
+        <h2>Calculadora de Ganancias</h2>
+        <label for="amount">Monto a invertir:</label>
+        <input type="number" id="amount" placeholder="Ingrese el monto">
+        <button onclick="calcularGanancia()">Calcular</button>
+        <p class="result" id="resultado"></p>
+        
+        <h2>Cuenta regresiva para el cobro</h2>
+        <input type="date" id="fechaInicio">
+        <button onclick="calcularDias()">Calcular días restantes</button>
+        <p class="result" id="diasRestantes"></p>
+        
+        <h2>Referidos</h2>
+        <p>Invita amigos y gana un 5% adicional de su inversión</p>
+        <button onclick="generarLink()">Generar link de invitado</button>
+        <p id="linkReferido"></p>
+    </div>
+    
+    <script>
+        function calcularGanancia() {
+            let monto = parseFloat(document.getElementById("amount").value);
+            if (isNaN(monto) || monto <= 0) {
+                alert("Ingrese un monto válido");
+                return;
+            }
+            let ganancia = monto * 1.25;
+            document.getElementById("resultado").innerText = "Ganancia mensual: $" + ganancia.toFixed(2);
+        }
+        
+        function calcularDias() {
+            let fechaInicio = new Date(document.getElementById("fechaInicio").value);
+            if (isNaN(fechaInicio)) {
+                alert("Seleccione una fecha válida");
+                return;
+            }
+            let fechaFin = new Date(fechaInicio);
+            fechaFin.setDate(fechaFin.getDate() + 30);
+            let hoy = new Date();
+            let diferencia = Math.ceil((fechaFin - hoy) / (1000 * 60 * 60 * 24));
+            document.getElementById("diasRestantes").innerText = "Días restantes: " + (diferencia >= 0 ? diferencia : 0);
+        }
+        
+        function generarLink() {
+            let userId = Math.random().toString(36).substring(2, 10);
+            let link = "https://goodcash.com/ref/" + userId;
+            document.getElementById("linkReferido").innerText = "Tu link: " + link;
+            navigator.clipboard.writeText(link).then(() => {
+                alert("Link copiado al portapapeles");
+            }).catch(err => {
+                console.error("Error al copiar el link", err);
+            });
+        }
+    </script>
+</body>
+</html>
